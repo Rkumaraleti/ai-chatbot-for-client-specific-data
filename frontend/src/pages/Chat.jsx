@@ -53,7 +53,7 @@ const Chat = observer(() => {
       // Add AI response to the conversation
       const aiMessage = {
         sender: "AI",
-        text: response.data.messages[1].content, // Replace with actual API response
+        text: response.data.messages[1].content,
       };
       chatStore.addMessage(aiMessage);
     } catch (error) {
@@ -119,6 +119,7 @@ const Chat = observer(() => {
           placeholder="Type your message..."
         />
         <button
+          type="submit"
           className="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
           onClick={handleSend}
         >
