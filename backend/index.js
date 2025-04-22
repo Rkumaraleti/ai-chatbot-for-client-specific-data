@@ -34,6 +34,12 @@ app.get('/', (req, res) => {
 }
 );
 
+// Import routes
+const conversationRoutes = require('./routes/conversationRoutes');
+
+// Use Routes
+app.use('/conversations', conversationRoutes);
+
 // Listening to the server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
