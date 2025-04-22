@@ -1,7 +1,6 @@
 const express = require('express');
-const cors = require('cors');
 
-const dotend = require('dotenv').config();
+const dotenv = require('dotenv').config();
 
 // Create an Express application
 const app = express();
@@ -14,19 +13,18 @@ app.use(express.urlencoded({ extended: true }));
 const {connectDB} = require('./config/db');
 connectDB();
 
-
+// Environment variables
 const PORT = process.env.PORT || 3000;
 const CLIENT_URL = process.env.CLIENT_URL;
 
-// Enable CORS for all routes
-app.use(cors(
-    {
-        origin: CLIENT_URL, // ALlowed origin
-        credentials: true, // Allow credentials
-        methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
-        allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
-    }
-));
+// CORS Policy:
+const cors = require('cors');
+app.use(cors({
+    origin: process.env.CLIENT_URL, // Use a single string for the origin
+    credentials: true, // Allow credentials
+    optionSuccessStatus: 200,
+    allowedHeaders: ["Content-Type", "Authorization", "Accept"], // Allow these headers
+}));
 
 // Test route
 app.get('/', (req, res) => {
