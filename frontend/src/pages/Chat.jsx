@@ -1,11 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import chatStore from "../store/chatStore";
+import authStore from "../store/authStore"; // Import the auth store
 import axios from "axios";
+import ReactMarkdown from "react-markdown";
 
 const Chat = observer(() => {
   const [input, setInput] = useState(""); // Stores the user input
   const messagesEndRef = useRef(null); // Ref to scroll to the latest message
+  const navigate = useNavigate(); // For navigation
 
   // Scroll to the latest message
   const scrollToBottom = () => {
@@ -34,7 +38,7 @@ const Chat = observer(() => {
       const response = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/conversations`,
         {
-          userId: "user123", // Replace with actual user ID
+          userId: authStore.user.email, // Replace with actual user ID
           messages: [
             {
               role: "user",
@@ -67,11 +71,41 @@ const Chat = observer(() => {
     }
   };
 
+  const handleLogout = () => {
+    authStore.logout(); // Clear user data from the store
+    navigate("/"); // Redirect to the login page
+  };
+
   return (
     <div className="flex flex-col h-screen bg-gray-900 text-white w-[75%] mx-auto">
       {/* Chat Header */}
-      <div className="bg-gray-800 text-white text-center py-3 shadow">
-        <h4 className="text-lg font-semibold">AI Chat System</h4>
+      <div className="flex items-center justify-between bg-gray-800 text-white text-center py-3 shadow">
+        <h4 className="text-lg font-semibold text-center flex-8">
+          AI Chat System{" "}
+        </h4>
+        <div className="m-4">
+          <Link to="/chat-history/user1">
+            <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+              Chat History
+            </button>
+          </Link>
+        </div>
+        <div className="m-4">
+          {authStore.isLoggedIn() ? (
+            <button
+              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          ) : (
+            <Link to="/login">
+              <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                Login
+              </button>
+            </Link>
+          )}
+        </div>
       </div>
 
       {/* Chat Messages Area */}
@@ -92,7 +126,7 @@ const Chat = observer(() => {
               style={{ maxWidth: "75%" }}
             >
               <strong>{message.sender === "user" ? "You" : "AI"}:</strong>{" "}
-              {message.text}
+              <ReactMarkdown>{message.text}</ReactMarkdown>
             </div>
           </div>
         ))}

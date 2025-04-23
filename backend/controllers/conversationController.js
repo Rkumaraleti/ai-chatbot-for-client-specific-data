@@ -32,8 +32,7 @@ exports.setConversation = async (req, res) => {
 
     // Add the user's question to the prompt
     prompt += `Question: ${messages[0].content}`;
-      
-    console.log("Prompt:", prompt); // Log the prompt for debugging
+    
       const aiResponse = await getGeminiData(prompt); // Get AI response using the message content
 
       // AI Response saving in the database
@@ -59,8 +58,8 @@ exports.setConversation = async (req, res) => {
 // Function to get conversations by userId (can also be updated to fetch by username or email id later)
 exports.getConversationsByUserId = async (req, res) => {
   try {
-    const { id } = req.params; // Extract userId from the request parameters
-    const conversations = await Conversation.find({ userId: id }); // Fetch conversations for the specific userId
+    const { username } = req.params; // Extract userId from the request parameters
+    const conversations = await Conversation.find({ userId: username }); // Fetch conversations for the specific userId
     res.status(200).json(conversations); // Send the conversations as a JSON response
   } catch (error) {
     console.error("Error fetching conversations by userId:", error.message);

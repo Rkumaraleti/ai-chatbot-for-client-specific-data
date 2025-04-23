@@ -32,13 +32,19 @@ app.get('/', (req, res) => {
 }
 );
 
+// Middleware for JWT Authentication & role-based access control
+const jwtAuthentication = require('./middlewares/jwtAuthentication');
+const isAdmin = require('./middlewares/isAdmin');
+
 // Import routes
 const conversationRoutes = require('./routes/conversationRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 // Use Routes
-app.use('/conversations', conversationRoutes);
-app.use('/admin', adminRoutes);
+app.use('/conversations', jwtAuthentication,conversationRoutes);
+app.use('/admin', jwtAuthentication, isAdmin, adminRoutes);
+app.use('/auth', authRoutes);
 
 // Listening to the server
 app.listen(PORT, () => {

@@ -10,6 +10,6 @@ router.get('/', ConversationController.getConversations); // Get all conversatio
 
 router.post('/', ConversationController.setConversation); // Set a new conversation
 
-router.get('/:id', ConversationController.getConversationsByUserId); // Get a conversation by ID
+router.get('/:username', ConversationController.getConversationsByUserId); // Get a conversation by ID
 
 module.exports = router;

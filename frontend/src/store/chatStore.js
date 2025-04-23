@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 
 class ChatStore {
-  messages = JSON.parse(localStorage.getItem("messages")) || []; // Load messages from localStorage
+  messages = JSON.parse(sessionStorage.getItem("messages")) || []; // Load messages from sessionStorage
   isTyping = false;
 
   constructor() {
@@ -11,7 +11,7 @@ class ChatStore {
   // Add a message to the chat
   addMessage(message) {
     this.messages.push(message);
-    this.saveMessages(); // Save messages to localStorage
+    this.saveMessages(); // Save messages to sessionStorage
   }
 
   // Set the typing state
@@ -19,15 +19,15 @@ class ChatStore {
     this.isTyping = isTyping;
   }
 
+  // Save messages to sessionStorage
+  saveMessages() {
+    sessionStorage.setItem("messages", JSON.stringify(this.messages));
+  }
+
   // Clear all messages
   clearMessages() {
     this.messages = [];
-    this.saveMessages(); // Clear messages in localStorage
-  }
-
-  // Save messages to localStorage
-  saveMessages() {
-    localStorage.setItem("messages", JSON.stringify(this.messages));
+    sessionStorage.removeItem("messages"); // Clear messages from sessionStorage
   }
 }
 
