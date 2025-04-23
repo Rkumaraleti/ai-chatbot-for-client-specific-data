@@ -5,15 +5,15 @@ const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_key";
 
 // Import Auth Controller
-const { register, login } = require("../controllers/authController");
+const authController = require("../controllers/authController");
 
 
 // Register Route
 router.route("/register")
-    .post(register);
+    .post(authController.register);
 
 // Login Route
 router.route("/login")
-    .post(login);
+    .post(authController.login);
 
 module.exports = router;

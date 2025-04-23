@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-const { uploadFile, fetchCompanyData } = require("../controllers/adminController");
+const adminController = require("../controllers/adminController");
 
 const router = express.Router();
 
@@ -32,8 +32,8 @@ const upload = multer({
 
 // File upload route
 router.route("/upload")
-  .post(upload.single("file"), uploadFile);
+  .post(upload.single("file"), adminController.uploadFile);
 
-router.route("/companyData").get(fetchCompanyData);
+router.route("/companyData").get(adminController.fetchCompanyData);
 
 module.exports = router;
