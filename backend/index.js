@@ -7,7 +7,7 @@ const app = express();
 
 // Request Body Parser
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}))
 
 // Connect to MongoDB
 const {connectDB} = require('./config/db');
@@ -27,14 +27,15 @@ app.use((req, res, next) => {
 // CORS Policy:
 const cors = require('cors');
 app.use(cors({
-    origin: process.env.CLIENT_URL, // Use a single string for the origin
+    origin: CLIENT_URL, // Use a single string for the origin
     credentials: true, // Allow credentials
     optionSuccessStatus: 200,
     allowedHeaders: ["Content-Type", "Authorization", "Accept"], // Allow these headers
 }));
+app.options('*', cors())
 
 // Test route
-app.get('/', (req, res) => {
+app.use('/', (req, res) => {
     res.send('Backend is working!');
 }
 );
