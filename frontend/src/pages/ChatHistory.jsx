@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
-import axios from "axios";
+import axiosInstance from "../services/axiosInstance";
 import authStore from "../store/authStore";
 
 const ChatHistory = () => {
@@ -11,7 +11,7 @@ const ChatHistory = () => {
   useEffect(() => {
     const fetchChatHistory = async () => {
       try {
-        const response = await axios.get(
+        const response = await axiosInstance.get(
           `${import.meta.env.VITE_SERVER_URL}/conversations/${
             authStore.user.email
           }`

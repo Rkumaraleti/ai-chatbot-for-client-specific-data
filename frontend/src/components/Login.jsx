@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authStore from "../store/authStore"; // Import the MobX store
-import axios from "axios";
+import axiosInstance from "../services/axiosInstance";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -11,8 +11,8 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Replace with your API endpoint
-      const response = await axios.post(
+      // Send login request to the backend
+      const response = await axiosInstance.post(
         `${import.meta.env.VITE_SERVER_URL}/auth/login`,
         { email, password }
       );

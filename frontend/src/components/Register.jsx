@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
-import axios from "axios";
+import axiosInstance from "../services/axiosInstance";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -25,7 +25,7 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         `${import.meta.env.VITE_SERVER_URL}/auth/register`,
         {
           name: formData.name,

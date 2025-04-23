@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axiosInstance from "../services/axiosInstance";
 
 const Admin = () => {
   const [file, setFile] = useState(null); // State to store the selected file
@@ -29,13 +29,14 @@ const Admin = () => {
     formData.append("file", file);
 
     try {
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         `${import.meta.env.VITE_SERVER_URL}/admin/upload`,
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
           },
+          withCredentials: true,
         }
       );
       if (response.status !== 200) {

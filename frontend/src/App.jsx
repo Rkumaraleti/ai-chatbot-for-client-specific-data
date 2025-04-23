@@ -24,7 +24,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/chat-history/:username" element={<ChatHistory />} />
+          <Route path="/chat-history" element={<ChatHistory />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>

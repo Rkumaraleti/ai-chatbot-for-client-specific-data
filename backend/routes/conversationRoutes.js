@@ -6,10 +6,11 @@ const router = express.Router();
 // Import the Conversation model:
 const ConversationController = require('../controllers/conversationController');
 
-router.get('/', ConversationController.getConversations); // Get all conversations
+router.route('/')
+    .get(ConversationController.getConversations)
+    .post(ConversationController.setConversation);
 
-router.post('/', ConversationController.setConversation); // Set a new conversation
-
-router.get('/:username', ConversationController.getConversationsByUserId); // Get a conversation by ID
+router.route('/:username')
+    .get(ConversationController.getConversationsByUserId); // Get a conversation by ID
 
 module.exports = router;

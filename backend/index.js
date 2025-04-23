@@ -17,6 +17,13 @@ connectDB();
 const PORT = process.env.PORT || 3000;
 const CLIENT_URL = process.env.CLIENT_URL;
 
+// to ensure middlware:
+app.use((req, res, next) => {
+  console.log(`Request Origin: ${req.headers.origin}`);
+  console.log(`Request Method: ${req.method}`);
+  next();
+});
+
 // CORS Policy:
 const cors = require('cors');
 app.use(cors({

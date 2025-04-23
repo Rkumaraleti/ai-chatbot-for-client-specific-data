@@ -31,8 +31,9 @@ const upload = multer({
 });
 
 // File upload route
-router.post("/upload", upload.single("file"), uploadFile);
+router.route("/upload")
+  .post(upload.single("file"), uploadFile);
 
-router.get("/companyData", fetchCompanyData);
+router.route("/companyData").get(fetchCompanyData);
 
 module.exports = router;

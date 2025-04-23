@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import chatStore from "../store/chatStore";
 import authStore from "../store/authStore"; // Import the auth store
-import axios from "axios";
+import axiosInstance from "../services/axiosInstance";
 import ReactMarkdown from "react-markdown";
 
 const Chat = observer(() => {
@@ -35,7 +35,7 @@ const Chat = observer(() => {
 
     try {
       // Send the user message to the backend
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         `${import.meta.env.VITE_SERVER_URL}/conversations`,
         {
           userId: authStore.user.email, // Replace with actual user ID
@@ -51,6 +51,7 @@ const Chat = observer(() => {
           headers: {
             "Content-Type": "application/json",
           },
+          withCredentials: true,
         }
       );
 
@@ -84,7 +85,7 @@ const Chat = observer(() => {
           AI Chat System{" "}
         </h4>
         <div className="m-4">
-          <Link to="/chat-history/user1">
+          <Link to="/chat-history">
             <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
               Chat History
             </button>

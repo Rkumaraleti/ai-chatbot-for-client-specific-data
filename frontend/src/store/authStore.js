@@ -1,4 +1,5 @@
 import { makeAutoObservable } from "mobx";
+import chatStore from "./chatStore";
 
 class AuthStore {
   user = JSON.parse(localStorage.getItem("user")) || null; // Load user from localStorage
@@ -26,6 +27,7 @@ class AuthStore {
     localStorage.removeItem("token");
     sessionStorage.clear();
 
+    chatStore.clearMessages();
     // Optionally notify other parts of the app (e.g., via events or callbacks)
     console.log("User has been logged out.");
   }
