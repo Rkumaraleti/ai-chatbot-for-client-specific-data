@@ -26,6 +26,12 @@ const ChatHistory = () => {
     fetchChatHistory();
   }, []);
 
+  // Helper function to format timestamps
+  const formatTime = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  };
+
   return (
     <div className="flex flex-col h-screen bg-gray-100 w-[75%] mx-auto">
       {/* Header */}
@@ -82,6 +88,13 @@ const ChatHistory = () => {
                             {message.role === "user" ? "You" : "AI"}:
                           </strong>{" "}
                           {message.content}
+                          <div
+                            className={`text-sm text-gray-500 mt-2 ${
+                              message.role === "user" ? "text-white" : ""
+                            }`}
+                          >
+                            {formatTime(message.timestamp)}
+                          </div>
                         </>
                       )}
                     </div>
