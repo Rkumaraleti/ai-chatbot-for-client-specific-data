@@ -14,7 +14,10 @@ const Login = () => {
       // Send login request to the backend
       const response = await axiosInstance.post(
         `${import.meta.env.VITE_SERVER_URL}/auth/login`,
-        { email, password }
+        { email, password },
+        {
+          withCredentials: true,
+        }
       );
 
       // Extract user and token from the response
