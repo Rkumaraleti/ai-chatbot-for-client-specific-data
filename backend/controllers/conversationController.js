@@ -2,6 +2,8 @@ const Conversation = require("../models/Conversation"); // Import the Conversati
 
 const { getGeminiData } = require("../utils/gemini_ai"); // Import the function to get data from Gemini API
 
+const {companyData} = require("../controllers/adminController"); // Import the conversation controller
+
 // Function to get all conversations
 exports.getConversations = async (req, res) => {
   try {
@@ -17,8 +19,22 @@ exports.getConversations = async (req, res) => {
 exports.setConversation = async (req, res) => {
   try {
       const { userId, messages } = req.body; // Extract userId and messages from the request body
+    
+    let prompt = `You are a helpful assistant. Answer the user's question based on the provided context if context is available. If not, answer based on your knowledge. \n\n`; // Initialize the prompt with a system message
+    
+    try {
+        const requiredContext = await companyData(); // Fetch company data from the database
+        prompt += `Context: ${requiredContext} \n\n`; // Add the company data to the prompt
+    } catch (error) {
+        console.error("Error fetching company data:", error.message);
+        throw new Error("Failed to fetch company data");
+    }
+
+    // Add the user's question to the prompt
+    prompt += `Question: ${messages[0].content}`;
       
-      const aiResponse = await getGeminiData(messages[0].content); // Get AI response using the message content
+    console.log("Prompt:", prompt); // Log the prompt for debugging
+      const aiResponse = await getGeminiData(prompt); // Get AI response using the message content
 
       // AI Response saving in the database
       const aiConversation = new Conversation({

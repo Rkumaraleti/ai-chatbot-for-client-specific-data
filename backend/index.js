@@ -34,9 +34,11 @@ app.get('/', (req, res) => {
 
 // Import routes
 const conversationRoutes = require('./routes/conversationRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 // Use Routes
 app.use('/conversations', conversationRoutes);
+app.use('/admin', adminRoutes);
 
 // Listening to the server
 app.listen(PORT, () => {
