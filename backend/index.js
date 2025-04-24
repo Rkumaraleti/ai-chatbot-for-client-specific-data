@@ -15,6 +15,13 @@ connectDB();
 // Environment variables
 const PORT = process.env.PORT || 3000;
 
+// origing middlware 
+app.use((req, res, next) => {
+  console.log(`Request Origin: ${req.headers.origin}`);
+  console.log(`Request Method: ${req.method}`);
+  next();
+});
+
 // CORS Policy:
 const cors = require('cors');
 app.use(cors({
@@ -23,7 +30,7 @@ app.use(cors({
     optionSuccessStatus: 200,
     allowedHeaders: ["Content-Type", "Authorization", "Accept"], // Allow these headers
 }));
-app.options('*', cors())
+app.options('/*', cors())
 
 // Test route
 app.get('/', (req, res) => {

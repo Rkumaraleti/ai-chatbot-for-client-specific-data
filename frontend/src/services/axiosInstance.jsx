@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import authStore from "../store/authStore";
+
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_SERVER_URL || "http://localhost:5000",
   headers: {
@@ -22,4 +24,23 @@ axiosInstance.interceptors.request.use(
   }
 );
 
+// Add a response interceptor to handle errors globally
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error("API Error:", error.response?.data?.message || error.message);
+
+    // Check for specific error status codes
+    if (error.response?.status === 401 || error.response?.status === 403) {
+      // Call the logout function if it is set
+      if (authStore.logout()) {
+        authStore.logout();
+      } else {
+        console.error("Logout function is not set.");
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
 export default axiosInstance;
